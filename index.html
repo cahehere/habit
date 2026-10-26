@@ -279,14 +279,14 @@ function 그리기(){
 // ===== 습관 등록 =====
 function 등록(){
   const 이름 = $('name').value.trim();
-  const 시작일 = $('startDate').value || 오늘();
+  const 시작일 = $('startDate').value || 더하기(오늘(), -34);
   if (!이름){ 오류('습관 이름을 입력해 주세요.'); $('name').focus(); return; }
   if (시작일 > 오늘()){ 오류('습관 시작일은 오늘보다 미래일 수 없습니다.'); return; }
   if (습관들.some(h => h.이름 === 이름)){ 오류('이미 등록된 습관입니다.'); return; }
   if (습관들.length >= 최대습관){ 오류(`습관은 최대 ${최대습관}개까지만 등록할 수 있습니다. 너무 많으면 지키기 어렵습니다.`); return; }
 
   습관들.push({ 이름, 색:고른색, 시작일, 기록:[] });
-  오류(''); $('name').value = ''; $('startDate').value = 오늘(); $('name').focus();
+  오류(''); $('name').value = ''; $('startDate').value = 더하기(오늘(), -34); $('name').focus();
   그리기();
 }
 
@@ -355,6 +355,7 @@ $('shareUrl').addEventListener('click', () => {
 function 알림(글){ const t=$('toast'); t.textContent=글; t.className='on'; clearTimeout(알림.t); 알림.t=setTimeout(()=>t.className='',2500); }
 
 불러오기();
+$('startDate').value = 더하기(오늘(), -34);
 그리기();
 </script>
 <div id="toast" role="status" aria-live="polite"></div>
